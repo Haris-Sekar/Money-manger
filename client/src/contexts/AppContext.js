@@ -1,11 +1,13 @@
 import React, { createContext, useState, useEffect } from 'react'
 import axios from 'axios'
 
+
 export const GlobalContext = createContext()
 const { Provider } = GlobalContext
 
 export default function AppContext({children}) {
     const [item, setItem] = useState({count:0, data: [], success: false, loading: true, added: true})
+    const [categories, setCategories] = useState()
     const [tempId, setTempId] = useState('')
     const [oldTransaction, setOldTransaction] = useState(null)
     const [balance, setBalance] = useState(0)
@@ -13,7 +15,7 @@ export default function AppContext({children}) {
     const [totalExpense, setTotalExpense] = useState(0)
     const [date, setDate] = useState('')
     const [isUpdated, setIsUpdated] = useState({loading: false, success: false, error: false})
-
+  
     useEffect(() => {
         getTransactions()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -21,10 +23,22 @@ export default function AppContext({children}) {
     useEffect(() => {
         calBalance()
         calTransaction()
+        getCategories()
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[item])
 
     console.log('item', item)
+
+    //get all categoris
+    function getCategories() {
+        const allCategory = item.data.map(each => {
+            return each.category
+          }) 
+        const  uniqueCategory = [...new Set(allCategory)]
+        setCategories(uniqueCategory)
+    }
+    console.log('categories', categories)
     // get all transactions from server:
     async function getTransactions(){
         try {
@@ -105,11 +119,13 @@ export default function AppContext({children}) {
         }
     }
 
+    
     return (
         <Provider value={{
             getTransactions,
             item,
             setItem,
+            categories,
             addItem,
             totalIncome,
             totalExpense,
@@ -123,7 +139,8 @@ export default function AppContext({children}) {
             setOldTransaction,
             oldTransaction,
             isUpdated,
-            setIsUpdated
+            setIsUpdated,
+            
         }}>
             {children}
         </Provider>

@@ -3,6 +3,7 @@ import { GlobalContext } from '../contexts/AppContext'
 import { Form, Input, Button, Select, DatePicker, Spin, Alert } from 'antd'
 
 
+
 const { Option } = Select;
 const layout = {
   labelCol: {
@@ -28,7 +29,7 @@ export default function InputUpdate({old}) {
     }
  }
 
-  const { date, setDate, tempId, updateItem, setOldTransaction, isUpdated, setIsUpdated} = useContext(GlobalContext)
+  const { date, setDate, tempId, updateItem, setOldTransaction, isUpdated, setIsUpdated, categories} = useContext(GlobalContext)
   
   const [form] = Form.useForm();
 
@@ -116,10 +117,9 @@ export default function InputUpdate({old}) {
           allowClear
           defaultValue={old.category}
         >
-          <Option value="grocery">grocery</Option>
-          <Option value="kids">kids</Option>
-          <Option value="income">income</Option>
-          <Option value="others">others</Option>
+         {categories.map(each => {
+           return <Option key={each} value={each}>{each}</Option>
+         })}
           <Option value="create new category">create new category</Option>
         </Select>
       </Form.Item>

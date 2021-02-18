@@ -29,7 +29,7 @@ export default function ExpenseInput() {
     
 }
 
-  const { addItem, date, setDate, item ,setItem } = useContext(GlobalContext)
+  const { addItem, date, setDate, item ,setItem, categories } = useContext(GlobalContext)
 
   const [form] = Form.useForm();
 
@@ -124,10 +124,9 @@ export default function ExpenseInput() {
           onChange={onGenderChange}
           allowClear
         >
-          <Option value="grocery">grocery</Option>
-          <Option value="kids">kids</Option>
-          <Option value="income">income</Option>
-          <Option value="others">others</Option>
+          {categories.map(each => {
+           return <Option key={each} value={each}>{each}</Option>
+         })}
           <Option value="create new category">create new category</Option>
         </Select>
       </Form.Item>
