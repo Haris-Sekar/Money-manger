@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts/AppContext'
 import { Form, Input, Button, Select, DatePicker, Spin, Alert } from 'antd'
+import {PlusCircleOutlined} from '@ant-design/icons'
 
 
 const { Option } = Select;
@@ -127,7 +128,7 @@ export default function ExpenseInput() {
           {categories.map(each => {
            return <Option key={each} value={each}>{each}</Option>
          })}
-          <Option value="create new category">create new category</Option>
+          <Option value="create new category"><PlusCircleOutlined style={{color: '#1285FF'}}/> New Category</Option>
         </Select>
       </Form.Item>
       <Form.Item
