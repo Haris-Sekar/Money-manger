@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import AllTabs from '../expenseTabs/AllTabs'
 import styled from 'styled-components'
 import { GlobalContext } from '../contexts/AppContext'
+import OverallChart from '../statsTabs/OverallChart'
 import { Spin } from 'antd'
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
                 </SpinStyle>  
             </SpinWrapper>:
             <HomeStyled>
+                <OverallChart />
                 <AllTabs />
             </HomeStyled>
         }
