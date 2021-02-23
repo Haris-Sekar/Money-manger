@@ -17,7 +17,7 @@ export default function Home() {
                 </SpinStyle>  
             </SpinWrapper>:
             <HomeStyled>
-                <OverallChart />
+                {/* <OverallChart /> */}
                 <AllTabs />
             </HomeStyled>
         }

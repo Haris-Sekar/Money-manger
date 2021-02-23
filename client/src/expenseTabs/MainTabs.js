@@ -4,7 +4,7 @@ import { Tabs } from 'antd'
 import { AppleOutlined, AndroidOutlined } from '@ant-design/icons'
 import ItemList from './ItemList'
 import ItemContainer from '../itemDisplay/ItemContainer'
-import Chart from '../statsTabs/Chart'
+
 
 export default function MainTabs({category}) {
     const { TabPane } = Tabs;
@@ -38,7 +38,7 @@ export default function MainTabs({category}) {
                 }
                 key="2"
                 >
-                <Chart/>
+                
             </TabPane>
   </Tabs>
     )

@@ -1,7 +1,9 @@
-import React from 'react';
-import {Route, Switch} from 'react-router-dom';
-import Home from './pages/Home';
+import React from 'react'
+import {Route, Switch} from 'react-router-dom'
+import Home from './pages/Home'
+import Chart from './pages/Chart'
 import Header from './header/Header'
+
 
 
 function App() {
@@ -10,6 +12,7 @@ function App() {
       <Header />
       <Switch>
         <Route exact path='/' component={Home} />
+        <Route exact path='/charts' component={Chart} />
       </Switch>
     </>
   );

@@ -1,8 +1,9 @@
 import React, {useContext, useState} from 'react'
-import { PageHeader, Row, Statistic, Button, Modal} from 'antd'
+import { PageHeader, Row, Statistic, Button, Modal, Space} from 'antd'
 import styled from 'styled-components'
 import { GlobalContext } from '../contexts/AppContext'
 import ExpenseInput from '../inputs/ExpenseInput'
+import {Link} from 'react-router-dom';
 
 export default function Header() {
     const { balance, totalIncome, totalExpense, item, setItem} = useContext(GlobalContext)
@@ -17,7 +18,8 @@ export default function Header() {
       setIsModalVisible(false);
     };
     const content = (
-      <Row>
+      <div>
+      <Row style={{marginBottom: '1rem'}}>
         <Statistic 
           title="Balance" 
           suffix={item.loading? null: "K"}
@@ -43,6 +45,15 @@ export default function Header() {
           key='3'
         />
       </Row>
+      
+      <Row>
+      <Link to="/">Home</Link>
+        <Link  style={{
+            margin: '0 32px'
+          }} to="/charts">Charts</Link>
+      </Row>
+      
+      </div>
     )
     return (
         <HeaderContainer >
