@@ -6,7 +6,7 @@ export const GlobalContext = createContext()
 const { Provider } = GlobalContext
 
 export default function AppContext({children}) {
-    const [item, setItem] = useState({count:0, data: [], success: false, loading: true, added: true})
+    const [item, setItem] = useState({count:0, data: [], success: false, loading: true, added: true, Loading: true})
     const [categories, setCategories] = useState()
     const [tempId, setTempId] = useState('')
     const [oldTransaction, setOldTransaction] = useState(null)
@@ -49,7 +49,7 @@ export default function AppContext({children}) {
         
         try {
             const res = await axios.get('api/v1/transactions')
-            setItem(res.data)
+            setItem({...res.data})
             
         } catch(err) {
             console.log(err)

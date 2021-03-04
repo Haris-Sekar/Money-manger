@@ -22,40 +22,46 @@ export default function MainTabs({category}) {
             return {...prev, data: thisMonth}
         })
         setKeyTab('2')
-        
+       
     }
 
    async function getAll() {
+       setItem(prev => {
+           return {...prev, Loading: true}
+       })
         setFreeBalance(false)
       await  getTransactions()
         
         setKeyTab('1')
     }
 
-    console.log('key', keyTab)
+    console.log('loading', item.Loading)
     
     return (
         <Tabs  activeKey={keyTab} size="small" type='card' animated>
             <TabPane
                 tab={
                     <span onClick={getAll}>
-                    <DollarOutlined />
                     All Time
+                    {item.Loading && <Spin style={{paddingLeft: '5px'}}/> }
                     </span>
                 }
                 key="1"
                 >
-                    <>{ (category === 'all')?
+                    <>
+                   
+                    <>{item.Loading? <p>loading</p>: (category === 'all')?
                         <ItemContainer />
                         :
                         <ItemList item={allItem}/> }</>
                    
+                   </>
                 
             </TabPane>
             <TabPane
                 tab={
                     <span  onClick={getMonth}>
-                    <PoundOutlined />
+                  
                     This Month
                     </span>
                 }
