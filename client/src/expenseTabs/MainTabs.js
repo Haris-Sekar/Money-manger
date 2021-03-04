@@ -31,7 +31,7 @@ export default function MainTabs({category}) {
     }
     
     return (
-        <Tabs defaultActiveKey='2' size="small">
+        <Tabs defaultActiveKey='1' size="small">
             <TabPane
                 tab={
                     <span onClick={getAll}>
