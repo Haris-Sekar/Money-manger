@@ -1,29 +1,40 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import { GlobalContext } from '../contexts/AppContext'
-import { Tabs } from 'antd'
+import { Tabs, Spin } from 'antd'
 import { AppleOutlined, AndroidOutlined } from '@ant-design/icons'
 import ItemList from './ItemList'
 import ItemContainer from '../itemDisplay/ItemContainer'
 import moment from 'moment'
+import styled from 'styled-components'
 
 export default function MainTabs({category}) {
     const { TabPane } = Tabs;
-    const { item, setItem, getTransactions } = useContext(GlobalContext)
+    const { item, setItem, getTransactions, freezeBalance, setFreeBalance } = useContext(GlobalContext)
     const allItem = item.data.filter(each => each.category === category)
-    const time = moment().format("MMM")
-
+    const month = moment().format("MMM")
+    const year = moment().format("YYYY")
+    const [defaultKey, setDefaultKey] = useState('1')
     function getMonth() {
         const allArray = item.data
-        const thisMonth = allArray.filter(item => item.date.includes(time))
+        const thisMonth = allArray.filter(item => item.date.includes(month) && item.date.includes(year))
         setItem(prev => {
             return {...prev, data: thisMonth}
         })
+        setDefaultKey('2')
+        setFreeBalance(true)
     }
+
+    function getAll() {
+        getTransactions()
+        setFreeBalance(false)
+        setDefaultKey('1')
+    }
+    
     return (
-        <Tabs defaultActiveKey="1" size="small">
+        <Tabs defaultActiveKey='2' size="small">
             <TabPane
                 tab={
-                    <span onClick={getTransactions}>
+                    <span onClick={getAll}>
                     <AppleOutlined />
                     All Time
                     </span>
@@ -57,3 +68,14 @@ export default function MainTabs({category}) {
   </Tabs>
     )
 }
+
+const SpinWrapper = styled.div`
+ position: relative;
+`
+
+const SpinStyle = styled.div`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`

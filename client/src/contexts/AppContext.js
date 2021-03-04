@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react'
 import axios from 'axios'
-
+import moment from 'moment'
 
 export const GlobalContext = createContext()
 const { Provider } = GlobalContext
@@ -15,18 +15,22 @@ export default function AppContext({children}) {
     const [totalExpense, setTotalExpense] = useState(0)
     const [date, setDate] = useState('')
     const [isUpdated, setIsUpdated] = useState({loading: false, success: false, error: false})
-  
+    const [itemCache, setItemCache] = useState()
+    const [freezeBalance, setFreeBalance] = useState(false)
+    
     useEffect(() => {
         getTransactions()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
     }, [])
+    
     useEffect(() => {
-        calBalance()
         calTransaction()
         getCategories()
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[item])
+        if (!freezeBalance) {
+            calBalance()
+        }
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [item])
 
     console.log('item', item)
 
@@ -41,9 +45,11 @@ export default function AppContext({children}) {
     console.log('categories', categories)
     // get all transactions from server:
     async function getTransactions(){
+        
         try {
             const res = await axios.get('api/v1/transactions')
             setItem(res.data)
+            
         } catch(err) {
             console.log(err)
         }
@@ -119,6 +125,7 @@ export default function AppContext({children}) {
         }
     }
 
+
     
     return (
         <Provider value={{
@@ -140,7 +147,9 @@ export default function AppContext({children}) {
             oldTransaction,
             isUpdated,
             setIsUpdated,
-            
+            itemCache,
+            freezeBalance, 
+            setFreeBalance
         }}>
             {children}
         </Provider>
