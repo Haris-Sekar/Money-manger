@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import { GlobalContext } from '../contexts/AppContext'
 import { Tabs, Spin } from 'antd'
-import { AppleOutlined, AndroidOutlined } from '@ant-design/icons'
+import { DollarOutlined, PoundOutlined } from '@ant-design/icons'
 import ItemList from './ItemList'
 import ItemContainer from '../itemDisplay/ItemContainer'
 import moment from 'moment'
@@ -9,60 +9,64 @@ import styled from 'styled-components'
 
 export default function MainTabs({category}) {
     const { TabPane } = Tabs;
-    const { item, setItem, getTransactions, freezeBalance, setFreeBalance } = useContext(GlobalContext)
+    const { item, setItem, getTransactions, freezeBalance, setFreeBalance, keyTab, setKeyTab } = useContext(GlobalContext)
     const allItem = item.data.filter(each => each.category === category)
     const month = moment().format("MMM")
     const year = moment().format("YYYY")
-    const [defaultKey, setDefaultKey] = useState('1')
-    function getMonth() {
+    
+   async function getMonth() {
         const allArray = item.data
         const thisMonth = allArray.filter(item => item.date.includes(month) && item.date.includes(year))
-        setItem(prev => {
+        setFreeBalance(true)
+     await   setItem(prev => {
             return {...prev, data: thisMonth}
         })
-        setDefaultKey('2')
-        setFreeBalance(true)
+        setKeyTab('2')
+        
     }
 
-    function getAll() {
-        getTransactions()
+   async function getAll() {
         setFreeBalance(false)
-        setDefaultKey('1')
+      await  getTransactions()
+        
+        setKeyTab('1')
     }
+
+    console.log('key', keyTab)
     
     return (
-        <Tabs defaultActiveKey='1' size="small">
+        <Tabs  activeKey={keyTab} size="small" type='card' animated>
             <TabPane
                 tab={
                     <span onClick={getAll}>
-                    <AppleOutlined />
+                    <DollarOutlined />
                     All Time
                     </span>
                 }
                 key="1"
                 >
-                    { (category === 'all')?
+                    <>{ (category === 'all')?
                         <ItemContainer />
                         :
-                        <ItemList item={allItem}/>
-                    }
+                        <ItemList item={allItem}/> }</>
+                   
                 
             </TabPane>
             <TabPane
                 tab={
                     <span  onClick={getMonth}>
-                    <AndroidOutlined />
+                    <PoundOutlined />
                     This Month
                     </span>
                 }
                 key="2"
                
                 >
-                    { (category === 'all')?
+                     <>{(category === 'all')?
                         <ItemContainer />
                         :
-                        <ItemList item={allItem}/>
-                    }
+                        <ItemList item={allItem}/>}</>
+                    
                 
             </TabPane>
   </Tabs>

@@ -17,6 +17,7 @@ export default function AppContext({children}) {
     const [isUpdated, setIsUpdated] = useState({loading: false, success: false, error: false})
     const [itemCache, setItemCache] = useState()
     const [freezeBalance, setFreeBalance] = useState(false)
+    const [keyTab, setKeyTab] = useState('1')
     
     useEffect(() => {
         getTransactions()
@@ -149,7 +150,9 @@ export default function AppContext({children}) {
             setIsUpdated,
             itemCache,
             freezeBalance, 
-            setFreeBalance
+            setFreeBalance,
+            keyTab, 
+            setKeyTab
         }}>
             {children}
         </Provider>
