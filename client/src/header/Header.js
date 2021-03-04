@@ -6,7 +6,7 @@ import ExpenseInput from '../inputs/ExpenseInput'
 import {Link} from 'react-router-dom';
 
 export default function Header() {
-    const { balance, totalIncome, totalExpense, item, setItem} = useContext(GlobalContext)
+    const { balance, totalIncome, totalExpense, item, setItem, keyTab} = useContext(GlobalContext)
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {
       setIsModalVisible(true);
@@ -28,17 +28,17 @@ export default function Header() {
           key='1'
         />
         <Statistic
-          title="Income"
+          title={keyTab === "1" ? "Total Income" : 'This Month'}
           value={totalIncome}
           valueStyle={{ color: '#3f8600', fontSize: '1rem' }}
           suffix={item.loading? null: "K"}
           key='2'
           style={{
-            margin: '0 32px'
+            margin: '0 40px'
           }}
         />
         <Statistic
-          title="Expense"
+          title={keyTab === "1" ? "Total Expense" : 'This Month'}
           value={totalExpense}
           valueStyle={{ color: '#cf1322', fontSize: '1rem' }}
           suffix={item.loading? null: "K"}
