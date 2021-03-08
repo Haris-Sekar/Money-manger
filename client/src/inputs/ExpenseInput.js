@@ -47,7 +47,7 @@ export default function ExpenseInput() {
     } else if(item.error) {
       infoError()
     }
-  },[item])
+  },[item.success, item.error])
   const onGenderChange = (value) => {
     switch (value) {
       case 'male':
