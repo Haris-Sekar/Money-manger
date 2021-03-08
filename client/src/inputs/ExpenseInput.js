@@ -104,7 +104,7 @@ export default function ExpenseInput() {
       </Form.Item>
       <Form.Item
         name="amount"
-        label="Amount (+ number / - number)"
+        label="(+/-) Amount"
         rules={[
           {
             required: true,
@@ -179,7 +179,7 @@ export default function ExpenseInput() {
                                         zIndex: 2,
                                         transform: "translate(-'50%', -'50%')"}}/>
     }
-     {item.error && <h4>:(( Something went wrong</h4>}
+     {item.error && <Alert message="Something went wrong, please check again" type="error" />}
     </div>
   );
 }

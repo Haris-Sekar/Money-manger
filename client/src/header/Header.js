@@ -61,10 +61,12 @@ export default function Header() {
                 className="site-page-header"
                 title="Money Tracker"
                 subTitle=""
-                extra={
+                extra={<>{!item.loading ?
                   <Button type="primary"  onClick={showModal}>
                     Add Item
-                  </Button>
+                  </Button>: null}
+                  </>
+                  
                 }
                 avatar={{ src: 'https://lh3.googleusercontent.com/pw/ACtC-3fhiNlf4ZNKX5PXdubT3jxlw2qyL_F51FYF2I4Cir7l0hy-EqrWD-9yU0jpAwvlCD7WKHhKr94nftXm7969XhDVxbpjpYnzD1jbpBOvUUmh2h30TokMATf3SkhRzez8doxFpgLWiZIYKqjsL6VyyUr3=w743-h990-no' }}
             > 

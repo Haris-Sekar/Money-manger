@@ -96,7 +96,7 @@ export default function InputUpdate({old}) {
       </Form.Item>
       <Form.Item
         name="amount"
-        label="Amount"
+        label="(+/-) Amount"
         rules={[
           {
             required: false,
@@ -172,7 +172,7 @@ export default function InputUpdate({old}) {
                                         zIndex: 2,
                                         transform: "translate(-'50%', -'50%')"}}/>}
     
-    {isUpdated.error && <h4>:(( Something went wrong</h4>}
+    {isUpdated.error && <Alert message="Something went wrong, please check again" type="error" />}
     </div>
   );
 }
