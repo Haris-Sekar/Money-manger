@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { GlobalContext } from '../contexts/AppContext'
-import { Form, Input, Button, Select, DatePicker, Spin, Alert } from 'antd'
+import { Form, Input, Button, Select, DatePicker, Spin, Alert, message } from 'antd'
 import {PlusCircleOutlined} from '@ant-design/icons'
 
 
@@ -34,6 +34,20 @@ export default function ExpenseInput() {
 
   const [form] = Form.useForm();
 
+  const infoSuccess = () => {
+    message.success('The transaction has been added!');
+  };
+
+  const infoError = () => {
+    message.error('Something went wrong, check again!');
+  };
+  useEffect(() => {
+    if(item.success) {
+      infoSuccess()
+    } else if(item.error) {
+      infoError()
+    }
+  },[item])
   const onGenderChange = (value) => {
     switch (value) {
       case 'male':
@@ -90,14 +104,14 @@ export default function ExpenseInput() {
       </Form.Item>
       <Form.Item
         name="amount"
-        label="Amount"
+        label="Amount (+ number / - number)"
         rules={[
           {
             required: true,
           },
         ]}
       >
-        <Input placeholder="Enter amount" />
+        <Input placeholder="positive / negative amount" />
       </Form.Item>
       <Form.Item
         label="Date"
@@ -151,7 +165,8 @@ export default function ExpenseInput() {
           ) : null;
         }}
       </Form.Item>
-      {item.success && <Alert style={{marginBottom: '1rem', paddingBottom: 0}} message={<p>The transaction has been added!</p>} type="success" />}
+     
+      
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit" size='large'>
           Add Transaction

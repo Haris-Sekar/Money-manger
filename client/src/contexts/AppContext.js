@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react'
 import axios from 'axios'
-import moment from 'moment'
 
 export const GlobalContext = createContext()
 const { Provider } = GlobalContext
@@ -15,7 +14,6 @@ export default function AppContext({children}) {
     const [totalExpense, setTotalExpense] = useState(0)
     const [date, setDate] = useState('')
     const [isUpdated, setIsUpdated] = useState({loading: false, success: false, error: false})
-    const [itemCache, setItemCache] = useState()
     const [freezeBalance, setFreeBalance] = useState(false)
     const [keyTab, setKeyTab] = useState('1')
     
@@ -43,7 +41,7 @@ export default function AppContext({children}) {
         const  uniqueCategory = [...new Set(allCategory)]
         setCategories(uniqueCategory)
     }
-    console.log('categories', categories)
+    
     // get all transactions from server:
     async function getTransactions(){
         
@@ -72,8 +70,13 @@ export default function AppContext({children}) {
             })
         } catch(err){
             console.log(err)
+            
+            setItem(prev => {
+                return  {...prev,success: false, loading: false, error: true, added: true}
+               })
         }
     }
+
     // delete transaction
     async function deleteItem(itemId){
         try {
@@ -85,9 +88,9 @@ export default function AppContext({children}) {
             console.log(error)
         }
     }
+
     // update transaction
     async function updateItem(itemId, newItem){
-        
         try {
             const response = await axios.put(`api/v1/transactions/${itemId}`, newItem)
             console.log('update response', response)
@@ -100,6 +103,7 @@ export default function AppContext({children}) {
             setTempId('')
         }
     }
+
     // calculate balance
     function calBalance() {
         if(item.count) {
@@ -108,9 +112,8 @@ export default function AppContext({children}) {
             setBalance(total)
             
         }
-        
-        //console.log('allExp',allExp)
     }
+
     // calculate all expenses and icome
     function calTransaction() {
         if(item.count) {
@@ -122,11 +125,8 @@ export default function AppContext({children}) {
             
             setTotalExpense(totalExpense)
             setTotalIncome(totalIncome)
-           
         }
     }
-
-
     
     return (
         <Provider value={{
@@ -148,7 +148,6 @@ export default function AppContext({children}) {
             oldTransaction,
             isUpdated,
             setIsUpdated,
-            itemCache,
             freezeBalance, 
             setFreeBalance,
             keyTab, 

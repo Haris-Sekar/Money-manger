@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { GlobalContext } from '../contexts/AppContext'
-import { Form, Input, Button, Select, DatePicker, Spin, Alert } from 'antd'
+import { Form, Input, Button, Select, DatePicker, Spin, Alert, message } from 'antd'
 import {PlusCircleOutlined} from '@ant-design/icons'
 
 
@@ -29,7 +29,7 @@ export default function InputUpdate({old}) {
     }
  }
 
-  const { date, setDate, tempId, updateItem, setOldTransaction, isUpdated, setIsUpdated, categories} = useContext(GlobalContext)
+  const { date, setDate, tempId, updateItem,oldTransaction, setOldTransaction, isUpdated, setIsUpdated, categories} = useContext(GlobalContext)
   
   const [form] = Form.useForm();
 
@@ -38,7 +38,21 @@ export default function InputUpdate({old}) {
   };
 
   const oldKeys = ['name', 'amount', 'date','category']
-    
+  
+  const infoSuccess = () => {
+    message.success('The transaction has been updated!');
+  };
+
+  const infoError = () => {
+    message.error('Something went wrong, check again!');
+  };
+  useEffect(() => {
+    if(isUpdated.success) {
+      infoSuccess()
+    } else if(isUpdated.error) {
+      infoError()
+    }
+  },[isUpdated])
 
   const onFinish = (values) => {
     setIsUpdated({loading: true, success: false, error: false})
@@ -56,7 +70,7 @@ export default function InputUpdate({old}) {
     console.log(values)
 
     
-    //handleCancel()
+   
     if(values.category === 'create new category'){
       values.category = values.newcategory
     }
@@ -143,7 +157,7 @@ export default function InputUpdate({old}) {
           ) : null;
         }}
       </Form.Item>
-      {isUpdated.success && <Alert style={{paddingBottom: 0}} message={<p> The transaction has been updated!</p>} type="success" />}
+      
       <Form.Item {...tailLayout}>
         {!isUpdated.success && 
           <Button type="primary" htmlType="submit" size='medium'>
