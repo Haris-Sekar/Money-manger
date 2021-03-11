@@ -16,6 +16,9 @@ export default function Header() {
     };
     const handleCancel = () => {
       setIsModalVisible(false);
+      setItem(prev => {
+        return {...prev, added: false}
+      })
     };
     const content = (
       <div>

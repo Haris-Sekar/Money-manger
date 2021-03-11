@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { GlobalContext } from '../contexts/AppContext'
 import { Form, Input, Button, Select, DatePicker, Spin, Alert, message } from 'antd'
 import {PlusCircleOutlined} from '@ant-design/icons'
@@ -42,12 +42,12 @@ export default function ExpenseInput() {
     message.error('Something went wrong, check again!');
   };
   useEffect(() => {
-    if(item.success) {
+    if(item.success && item.added) {
       infoSuccess()
     } else if(item.error) {
       infoError()
     }
-  },[item.success, item.error])
+  },[item.success, item.error, item.added])
   const onGenderChange = (value) => {
     switch (value) {
       case 'male':
@@ -76,7 +76,7 @@ export default function ExpenseInput() {
   };
   const onFinish = (values) => {
     setItem(prev => {
-      return {...prev, added: false, success: false, error: false}
+      return {...prev, added: false,  error: false}
     })
     console.log(values)
     values.date = date

@@ -44,7 +44,7 @@ export default function MainTabs({category}) {
                 }
                 key="1"
                 >
-                    <>{item.Loading? <p>loading</p>: (category === 'all')?
+                    <>{item.Loading? <p>Loading...</p>: (category === 'all')?
                         <ItemContainer />
                         :
                         <ItemList item={allItem}/> }
