@@ -11,7 +11,6 @@ exports.getTransactions = async (req, res, next) => {
             count: transactions.length,
             data: transactions,
             loading: false,
-            added: true,
             Loading: false
         })
     } catch(error) {
