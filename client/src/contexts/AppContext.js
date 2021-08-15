@@ -1,10 +1,13 @@
 import React, { createContext, useState, useEffect } from 'react'
 import axios from 'axios'
 
+
+
 export const GlobalContext = createContext()
 const { Provider } = GlobalContext
 
 export default function AppContext({children}) {
+    const [user, setUser] = useState(null)
     const [item, setItem] = useState({count:0, data: [], success: false, loading: true, added: true, Loading: true})
     const [categories, setCategories] = useState()
     const [tempId, setTempId] = useState('')
@@ -31,7 +34,19 @@ export default function AppContext({children}) {
          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [item])
 
-    console.log('item', item)
+
+    //signin
+    const signIn = async (user, history) => {
+        try {
+			const { data } = await axios.post('api/users/signin', user)
+            console.log(data)
+			setUser(data)
+		    history.push('/')
+		} catch (error) {
+			console.log(error)
+		}
+    }
+    
 
     //get all categoris
     function getCategories() {
@@ -63,7 +78,6 @@ export default function AppContext({children}) {
         }
         try {
             const response = await axios.post('api/v1/transactions', newItem, config)
-            console.log('add res',response)
             const res = response.data
             setItem(prev => {
              return  {...prev,added:res.added, success: res.success, loading: res.loading, count: item.count + 1, data: [res.data, ...item.data]}
@@ -93,7 +107,6 @@ export default function AppContext({children}) {
     async function updateItem(itemId, newItem){
         try {
             const response = await axios.put(`api/v1/transactions/${itemId}`, newItem)
-            console.log('update response', response)
             //getTransactions()
             setIsUpdated(response.data)
             setTempId('')
@@ -130,6 +143,8 @@ export default function AppContext({children}) {
     
     return (
         <Provider value={{
+            signIn,
+            user,
             getTransactions,
             item,
             setItem,
