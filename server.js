@@ -2,6 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
 const transactions = require('./routes/transactions')
+const users = require('./routes/users')
 const connectDB = require('./config/db')
 
 dotenv.config({ path: './config/config.env'})
@@ -16,6 +17,7 @@ if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
+app.use('/api/users', users)
 app.use('/api/v1/transactions', transactions)
 
 if(process.env.NODE_ENV === 'production') {
