@@ -9,7 +9,7 @@ export default function ItemContainer() {
         <div>
             {item.data.length > 0 && 
                 item.data.map(eachItem => {
-                    return <ItemDefault item={eachItem} key={eachItem._id}/>
+                    return <ItemDefault item={eachItem} key={eachItem._id} />
                 })
             }        
         </div>

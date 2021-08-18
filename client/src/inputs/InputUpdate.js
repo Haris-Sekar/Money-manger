@@ -160,18 +160,12 @@ export default function InputUpdate({old}) {
       
       <Form.Item {...tailLayout}>
         {!isUpdated.success && 
-          <Button type="primary" htmlType="submit" size='medium'>
+          <Button type="primary" htmlType="submit" size='medium' disabled={isUpdated.loading} loading={isUpdated.loading}>
             Update Transaction
           </Button>
         }
       </Form.Item>
     </Form>
-    {isUpdated.loading && <Spin style={{position: 'fixed',
-                                        top: '50%',
-                                        left: '50%',
-                                        zIndex: 2,
-                                        transform: "translate(-'50%', -'50%')"}}/>}
-    
     {isUpdated.error && <Alert message="Something went wrong, please check again" type="error" />}
     </div>
   );

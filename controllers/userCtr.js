@@ -121,6 +121,7 @@ exports.signin = async (req, res) => {
 		userId: existingUser.id,
 		email: existingUser.email,
 		token: token,
+		name: existingUser.name,
 	})
 
 }

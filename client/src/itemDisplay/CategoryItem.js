@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Card, Popover, Button } from 'antd'
-import {SettingOutlined} from '@ant-design/icons'
+import {EditOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import Edit from '../editItem/Edit'
 
@@ -30,7 +30,7 @@ export default function CategoryItem({item}) {
                                     trigger="click" 
                                     visible={visible} 
                                     onVisibleChange={show}>
-                                        <Button type='link'><SettingOutlined onClick={show} /></Button>
+                                        <Button type='link'><EditOutlined onClick={show} /></Button>
                                 </Popover>
                             </span>}
                 >

@@ -48,29 +48,7 @@ export default function ExpenseInput() {
       infoError()
     }
   },[item.success, item.error, item.added])
-  const onGenderChange = (value) => {
-    switch (value) {
-      case 'male':
-        form.setFieldsValue({
-          note: 'Hi, man!',
-        });
-        return;
-
-      case 'female':
-        form.setFieldsValue({
-          note: 'Hi, lady!',
-        });
-        return;
-
-      case 'other':
-        form.setFieldsValue({
-          note: 'Hi there!',
-        });
-        return;
-      default: 
-        return;
-    }
-  };
+  
   const onReset = () => {
     form.resetFields();
   };
@@ -136,7 +114,6 @@ export default function ExpenseInput() {
       >
         <Select
           placeholder="Select a category"
-          onChange={onGenderChange}
           allowClear
         >
           {categories.map(each => {
@@ -168,17 +145,11 @@ export default function ExpenseInput() {
      
       
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit" size='large'>
+        <Button type="primary" htmlType="submit" size='large' disabled={!item.added} loading={!item.added}>
           Add Transaction
         </Button>
       </Form.Item>
     </Form>
-    {!item.added && <Spin style={{position: 'fixed',
-                                        top: '50%',
-                                        left: '50%',
-                                        zIndex: 2,
-                                        transform: "translate(-'50%', -'50%')"}}/>
-    }
      {item.error && <Alert message="Something went wrong, please check again" type="error" />}
     </div>
   );
