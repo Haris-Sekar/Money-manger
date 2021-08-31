@@ -3,7 +3,7 @@ import { Form, Input, Button, message, Card, Typography } from 'antd'
 import { GlobalContext } from '../contexts/AppContext'
 import { useHistory } from 'react-router'
 import { GoogleLogin } from 'react-google-login'
-import { DollarOutlined } from '@ant-design/icons'
+import { UserOutlined  } from '@ant-design/icons'
 
 import styled from 'styled-components'
 
@@ -36,10 +36,10 @@ export default function Auth() {
 
 	useEffect(() => {
 		if (loginSucces) {
-			message.success('Logged in!')
+			message.success('Login successfully!')
 			setLoginSucces(null)
 		} else if (loginSucces === false) {
-			message.error('Log in failed, please try again')
+			message.error('Login failed, please try again')
 			setLoginSucces(null)
 		}
 	}, [loginSucces])
@@ -77,11 +77,24 @@ export default function Auth() {
 		<PageWrapper>
 			<TitleWrapper>
 				<Title level={2}>Welcome To My Money</Title>
+				<p>
+					 by
+					<a
+						style={{color: ' #ff4500'}}
+						href='https://buinam.com'
+						target='_blank'
+						rel='noreferrer'
+					>
+						{' '}
+						Bui Nam
+					</a>
+				</p>
 			</TitleWrapper>
 			<FormWrapper>
 				<CardStyled
+					style={{textAlign: 'center'}}
 					title={
-						isLogin ? 'Login to My Money!' : 'Sign up to My Money!'
+						isLogin ? <span><UserOutlined />{' '}Login!</span> : <span><UserOutlined />{' '}Sign Up!</span>
 					}
 				//	style={{ width: 600 }}
 				>
@@ -163,10 +176,6 @@ export default function Auth() {
 						</Form.Item>
 
 						<Form.Item
-							wrapperCol={{
-								offset: 10,
-								span: 17,
-							}}
 						>
 							<Button
 								type='primary'
@@ -179,7 +188,7 @@ export default function Auth() {
 						</Form.Item>
 					</Form>
 
-					{/* <GoogleLogin
+					<GoogleLogin
 						clientId='764653909373-n0l193hu41uegqllno34q5etp9b5d7qq.apps.googleusercontent.com'
 						render={renderProps => (
 							<Button
@@ -192,9 +201,9 @@ export default function Auth() {
 						onSuccess={googleSuccess}
 						onFailure={googleError}
 						cookiePolicy='single_host_origin'
-					/> */}
+					/>
 				</CardStyled>
-				<div style={{ textAlign: 'center' }}>
+				<div style={{ textAlign: 'center', marginTop: '10px' }}>
 					{isLogin ? (
 						<p>
 							Don’t have an account yet?{' '}
@@ -203,7 +212,7 @@ export default function Auth() {
 								style={{ padding: 2 }}
 								onClick={() => setIsLogin(false)}
 							>
-								Sign up
+								Sign Up
 							</Button>
 						</p>
 					) : (
@@ -220,19 +229,7 @@ export default function Auth() {
 					)}
 				</div>
 			</FormWrapper>
-			<FooterWrapper>
-				<p>
-					created by
-					<a
-						href='https://buinam.com'
-						target='_blank'
-						rel='noreferrer'
-					>
-						{' '}
-						Bui Nam
-					</a>
-				</p>
-			</FooterWrapper>
+		
 		</PageWrapper>
 	)
 }
@@ -253,22 +250,7 @@ const FormWrapper = styled.div`
 const TitleWrapper = styled.div`
 	text-align: center;
 `
-const FooterWrapper = styled.div`
-	margin-top: 1rem;
-	position: fixed;
-	bottom: -0.5rem;
-	width: 100vw;
-	background-color: #ffffff;
-	padding-bottom: 0;
-	text-align: center;
-	& a {
-		color: #ff4500;
-		font-size: 0.7rem;
-	}
-	& p {
-		font-size: 0.7rem;
-	}
-`
+
 const CardStyled = styled(Card)`
 	@media screen and (min-width: 900px) {
 		width: 500px;

@@ -18,21 +18,26 @@ export default function Home() {
                     <Spin />
                 </SpinStyle>  
             </SpinWrapper>:
-            <div>
+            <Container>
             <Header />
             <HomeStyled>
                 {/* <OverallChart /> */}
                 <AllTabs />
             </HomeStyled>
-            </div>
+            </Container>
         }
         </Body>
         
     )
 }
 
+const Container = styled.div`
+    
+`
+
 const HomeStyled = styled.div`
-    margin-top: 2rem;
+    
+    margin-top: 1rem;
 `
 
 const SpinWrapper = styled.div`

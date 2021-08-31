@@ -75,25 +75,15 @@ export default function Header() {
 				/>
 			</Row>
 
-			{/* <Row>
-				<Link to='/'>Home</Link>
-				<Link
-					style={{
-						margin: '0 32px',
-					}}
-					to='/auth'
-				>
-					Authenticate
-				</Link>
-			</Row> */}
+	
 		</div>
 	)
 	return (
 		<HeaderContainer>
 			<PageHeader
 				className='site-page-header'
-				title={`Welcome ${user?.name}`}
-				subTitle='My Money'
+				title={`Welcome ${user?.name.toUpperCase()}`}
+				subTitle='to My Money'
 				extra={
 					<>
 						<Button
@@ -135,4 +125,7 @@ export default function Header() {
 	)
 }
 
-const HeaderContainer = styled.div``
+const HeaderContainer = styled.div`
+	background-color: #ffffff;
+	margin-top: 1rem;
+`

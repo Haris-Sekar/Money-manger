@@ -34,7 +34,7 @@ export default function MainTabs({category}) {
         setKeyTab('1')
     }  
     return (
-        <Tabs  activeKey={keyTab} size='middle' type='card' animated>
+        <Tabs  activeKey={keyTab} size='middle' type='card' animated className='nice' style={{height: '85vh', overflow: 'auto'}}>
             <TabPane
                 tab={
                     <span onClick={getAll}>

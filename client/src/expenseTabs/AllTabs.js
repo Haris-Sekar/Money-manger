@@ -20,15 +20,15 @@ export default function AllTabs() {
   }
     return (
       <TabsContainer>
-        <div>
+        <ContentContainer>
         {item.count>0? 
           <Tabs tabPosition="left" size="small">
-            <TabPane tab='All' key='all'>
-                <MainTabs category='all'/>
+            <TabPane tab='All' key='all' >
+                <MainTabs category='all' style={{overflow: 'auto'}}/>
             </TabPane>
               {uniqueCategory.map(eachItem => {
-                return <TabPane tab={eachItem} key={eachItem}>
-                    <MainTabs category={eachItem} />
+                return <TabPane tab={eachItem} key={eachItem} >
+                    <MainTabs category={eachItem} style={{overflow: 'auto'}}/>
                 </TabPane>
               })}
           </Tabs>
@@ -40,11 +40,21 @@ export default function AllTabs() {
             </TabPane>
           </Tabs>
         }
-        </div>
+        </ContentContainer>
       </TabsContainer>
     )  
 };
 
 const TabsContainer = styled.div`
   padding-right: 1rem;
+  background-color: #F0F2F5;
+  background-color: white;
+  padding: 10px;
+  padding-left: 0px;
+  height: 90vh;
+  overflow: auto;
+`
+
+const ContentContainer = styled.div`
+  height: 200px;
 `
