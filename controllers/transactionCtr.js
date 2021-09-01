@@ -1,5 +1,5 @@
 const Transaction = require('../models/Transaction')
-const User = require('../models/user')
+const User = require('../models/User')
 const mongoose = require('mongoose')
 
 // @desc Get all transactions
