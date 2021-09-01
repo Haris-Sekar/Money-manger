@@ -1,35 +1,62 @@
 const jwt = require('jsonwebtoken')
+const User = require('../models/user')
+const mongoose = require('mongoose')
 
-module.exports = (req, res, next) => {
-    // ensure the request is not blocked by OPTIONS:
-    if (req.method === 'OPTIONS') {
-        return next()
-    }
+module.exports = async (req, res, next) => {
+	// ensure the request is not blocked by OPTIONS:
+	if (req.method === 'OPTIONS') {
+		return next()
+	}
 	try {
 		const token = req.headers.authorization.split(' ')[1]
-        console.log(token)
-        console.log('token')
-        const isCustomAuth = token.length < 500
-        let decodedToken
+		const isCustomAuth = token.length < 500
+		let decodedToken
 		if (!token) {
-            console.log('heel')
-			throw new Error('Authentication failed 1')
+			throw new Error('Authentication failed')
 		}
-        if(token && isCustomAuth) {
-            decodedToken = jwt.verify(token, 'lukaku')
-            // add data to the request:
-            req.userData = { userId: decodedToken.userId }
-            // allow to reach to below routers
-        } if (token && !isCustomAuth) {
-            //google auth:
-            decodedToken = jwt.decode(token)
-            req.userData = {userId: decodedToken?.sub}
-        }
-        next()
+		if (token && isCustomAuth) {
+			decodedToken = jwt.verify(token, 'lukaku')
+			// add data to the request:
+			req.userData = { userId: decodedToken.userId }
+			// allow to reach to below routers
+		}
+		if (token && !isCustomAuth) {
+			//google auth:
+			decodedToken = jwt.decode(token)
+			req.userData = {
+				googleId: decodedToken?.sub,
+			}
+
+			let userWithTransactions
+			try {
+				userWithTransactions = await User.findOne({
+					googleId: decodedToken?.sub,
+				}).populate('transactions')
+			} catch (err) {
+				console.log(err)
+			}
+			if (!userWithTransactions) {
+				const createdUser = new User({
+					googleId: decodedToken?.sub,
+					email: decodedToken?.email + 'bygoogle',
+					name: decodedToken?.name,
+				})
+
+				try {
+					await createdUser.save()
+				} catch (err) {
+					return res.status(500).json({
+						success: false,
+						error: 'Something went wrong',
+					})
+				}
+			}
+		}
+		next()
 	} catch (err) {
 		return res.status(403).json({
-            success: false,
-            error: 'authentication failed!'
-        })
+			success: false,
+			error: 'authentication failed!',
+		})
 	}
 }

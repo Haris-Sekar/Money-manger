@@ -25,7 +25,7 @@ export default function Header() {
 		user,
 	} = useContext(GlobalContext)
 	const avatar = (
-		<Avatar style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }}>
+		<Avatar style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }} src={user?.imageUrl}>
 			{user.name[0].toUpperCase()}
 		</Avatar>
 	)
@@ -95,7 +95,7 @@ export default function Header() {
 						</Button>
 						<Popconfirm
 							placement='bottom'
-							title='Loggin out?'
+							title='Log out?'
 							onConfirm={confirm}
 							onCancel={() => {}}
 							okText='Log out'

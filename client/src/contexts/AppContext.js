@@ -1,12 +1,15 @@
 import React, { createContext, useState, useEffect } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router'
+import {message} from 'antd'
 
 export const GlobalContext = createContext()
 const { Provider } = GlobalContext
 let logoutTimer
 export default function AppContext({ children }) {
-	const [user, setUser] = useState(JSON.parse(localStorage.getItem('moneyUser')) || {})
+	const [user, setUser] = useState(
+		JSON.parse(localStorage.getItem('moneyUser')) || {}
+	)
 	const [item, setItem] = useState({
 		count: 0,
 		data: [],
@@ -34,11 +37,8 @@ export default function AppContext({ children }) {
 	const [loginSucces, setLoginSucces] = useState(null)
 	const [loginLoading, setLoginLoading] = useState(false)
 
-
 	useEffect(() => {
-		console.log('run logout ???', new Date(user?.expiration) , new Date(), )
-		if(!user?.token || new Date(user?.expiration) < new Date()) {
-			console.log('user', user)
+		if (!user?.token || new Date(user?.expiration) < new Date()) {
 			logout()
 		}
 	}, [])
@@ -55,7 +55,7 @@ export default function AppContext({ children }) {
 	}, [user.token, tokenExpirationDate])
 
 	useEffect(() => {
-		if(user?.token) {
+		if (user?.token) {
 			getTransactions()
 		}
 	}, [user])
@@ -74,7 +74,7 @@ export default function AppContext({ children }) {
 		setLoginLoading(true)
 		const config = {
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
 		}
 		//generate the time from login and plus 1 hour
@@ -88,7 +88,11 @@ export default function AppContext({ children }) {
 			setLoginSucces(true)
 			window.localStorage.setItem(
 				'moneyUser',
-				JSON.stringify({ ...data, expiration: experationDate || tokenExpirationDate.toISOString(), })
+				JSON.stringify({
+					...data,
+					expiration:
+						experationDate || tokenExpirationDate.toISOString(),
+				})
 			)
 			setLoginLoading(false)
 			history.push('/')
@@ -103,7 +107,7 @@ export default function AppContext({ children }) {
 	const googleSignIn = (user, token, history, experationDate) => {
 		const config = {
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
 		}
 		//generate the time from login and plus 1 hour
@@ -117,18 +121,22 @@ export default function AppContext({ children }) {
 			email: user.email,
 			imageUrl: user.imageUrl,
 		}
+
 		setUser(data)
 		setLoginSucces(null)
 		window.localStorage.setItem(
 			'moneyUser',
-			JSON.stringify({ ...data, expiration: experationDate || tokenExpirationDate.toISOString(), })
+			JSON.stringify({
+				...data,
+				expiration: experationDate || tokenExpirationDate.toISOString(),
+			})
 		)
 		setLoginLoading(false)
 		history.push('/')
 	}
 
 	//signup
-	const signUp = async (user) => {
+	const signUp = async user => {
 		setLoginLoading(true)
 		const config = {
 			headers: {
@@ -147,8 +155,6 @@ export default function AppContext({ children }) {
 		}
 	}
 
-	
-
 	//logout
 	const logout = () => {
 		setUser({})
@@ -158,7 +164,6 @@ export default function AppContext({ children }) {
 		setBalance(0)
 		setTotalIncome(0)
 		setTotalExpense(0)
-		console.log('logout')
 	}
 
 	//get all categoris
@@ -176,8 +181,7 @@ export default function AppContext({ children }) {
 			method: 'get',
 			url: 'api/v1/transactions',
 			headers: {
-				Authorization:
-					'Bearer ' + user?.token
+				Authorization: 'Bearer ' + user?.token,
 			},
 		}
 
@@ -195,8 +199,7 @@ export default function AppContext({ children }) {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization:
-					'Bearer ' + user?.token
+				Authorization: 'Bearer ' + user?.token,
 			},
 		}
 		try {
@@ -235,8 +238,7 @@ export default function AppContext({ children }) {
 	async function deleteItem(itemId) {
 		const config = {
 			headers: {
-				Authorization:
-					'Bearer ' + user?.token
+				Authorization: 'Bearer ' + user?.token,
 			},
 		}
 		try {
@@ -254,11 +256,11 @@ export default function AppContext({ children }) {
 
 	// update transaction
 	async function updateItem(itemId, newItem) {
+		
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization:
-					'Bearer ' + user?.token
+				Authorization: 'Bearer ' + user?.token,
 			},
 		}
 		try {
@@ -270,10 +272,13 @@ export default function AppContext({ children }) {
 			//getTransactions()
 			setIsUpdated(response.data)
 			setTempId('')
+			message.success('The transaction has been updated!')
 		} catch (error) {
-			console.log('update error', error)
+			console.log(error)
 			setIsUpdated({ loading: false, success: false, error: true })
 			setTempId('')
+			message.error('Something went wrong, check again!')
+
 		}
 	}
 

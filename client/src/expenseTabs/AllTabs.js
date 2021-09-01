@@ -51,10 +51,8 @@ const TabsContainer = styled.div`
   background-color: white;
   padding: 10px;
   padding-left: 0px;
-  height: 90vh;
   overflow: auto;
 `
 
 const ContentContainer = styled.div`
-  height: 200px;
 `

@@ -38,6 +38,7 @@ const Container = styled.div`
 const HomeStyled = styled.div`
     
     margin-top: 1rem;
+    padding-bottom: 1rem;
 `
 
 const SpinWrapper = styled.div`

@@ -3,7 +3,7 @@ import { Form, Input, Button, message, Card, Typography } from 'antd'
 import { GlobalContext } from '../contexts/AppContext'
 import { useHistory } from 'react-router'
 import { GoogleLogin } from 'react-google-login'
-import { UserOutlined  } from '@ant-design/icons'
+import { UserOutlined, GoogleOutlined } from '@ant-design/icons'
 
 import styled from 'styled-components'
 
@@ -61,7 +61,6 @@ export default function Auth() {
 	const googleSuccess = async res => {
 		const result = await res?.profileObj
 		const token = await res?.tokenId
-		console.log('google login success', result, token)
 		if (result && token) {
 			setLoginSucces(true)
 			googleSignIn(result, token, history)
@@ -78,9 +77,9 @@ export default function Auth() {
 			<TitleWrapper>
 				<Title level={2}>Welcome To My Money</Title>
 				<p>
-					 by
+					by
 					<a
-						style={{color: ' #ff4500'}}
+						style={{ color: ' #ff4500' }}
 						href='https://buinam.com'
 						target='_blank'
 						rel='noreferrer'
@@ -92,11 +91,19 @@ export default function Auth() {
 			</TitleWrapper>
 			<FormWrapper>
 				<CardStyled
-					style={{textAlign: 'center'}}
+					style={{ textAlign: 'center' }}
 					title={
-						isLogin ? <span><UserOutlined />{' '}Login!</span> : <span><UserOutlined />{' '}Sign Up!</span>
+						isLogin ? (
+							<span>
+								<UserOutlined /> Login!
+							</span>
+						) : (
+							<span>
+								<UserOutlined /> Sign Up!
+							</span>
+						)
 					}
-				//	style={{ width: 600 }}
+					//	style={{ width: 600 }}
 				>
 					<div style={{ textAlign: 'center' }}>
 						{isLogin ? (
@@ -112,15 +119,6 @@ export default function Auth() {
 					<Form
 						style={{ marginTop: '20px' }}
 						name='basic'
-						// labelCol={{
-						// 	span: 4,
-						// }}
-						// wrapperCol={{
-						// 	span: 17,
-						// }}
-						// initialValues={{
-						// 	remember: true,
-						// }}
 						onFinish={onFinish}
 						onFinishFailed={onFinishFailed}
 					>
@@ -175,8 +173,7 @@ export default function Auth() {
 							/>
 						</Form.Item>
 
-						<Form.Item
-						>
+						<Form.Item>
 							<Button
 								type='primary'
 								htmlType='submit'
@@ -194,8 +191,9 @@ export default function Auth() {
 							<Button
 								onClick={renderProps.onClick}
 								disabled={renderProps.disabled}
+								icon={<GoogleOutlined />}
 							>
-								Google Sign In
+								Login with Google
 							</Button>
 						)}
 						onSuccess={googleSuccess}
@@ -229,7 +227,6 @@ export default function Auth() {
 					)}
 				</div>
 			</FormWrapper>
-		
 		</PageWrapper>
 	)
 }
@@ -255,5 +252,4 @@ const CardStyled = styled(Card)`
 	@media screen and (min-width: 900px) {
 		width: 500px;
 	}
-
 `
