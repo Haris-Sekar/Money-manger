@@ -3,61 +3,61 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 exports.signup = async (req, res) => {
-    const { name, email, password } = req.body
-    let existingUser
+	const { name, email, password } = req.body
+	let existingUser
 	try {
 		existingUser = await User.findOne({ email: email })
 	} catch (err) {
-        return res.status(500).json({
-            success: false,
-            error: 'Signing up failed, please try again later.'
-        })
+		return res.status(500).json({
+			success: false,
+			error: 'Signing up failed, please try again later.',
+		})
 	}
-    if (existingUser) {
-        return res.status(422).json({
-            success: false,
-            error: 'User exists already, please login instead.'
-        })
+	if (existingUser) {
+		return res.status(422).json({
+			success: false,
+			error: 'User exists already, please login instead.',
+		})
 	}
-    let hashedPassword
+	let hashedPassword
 	try {
 		hashedPassword = await bcrypt.hash(password, 12)
 	} catch (error) {
-        return res.status(500).json({
-            success: false,
-            error: 'Could not create user, plese try again'
-        })
+		return res.status(500).json({
+			success: false,
+			error: 'Could not create user, plese try again',
+		})
 	}
-    const createdUser = new User({
+	const createdUser = new User({
 		name,
 		email,
 		password: hashedPassword,
 		transactions: [],
 	})
 
-    try {
+	try {
 		await createdUser.save()
 	} catch (err) {
-        return res.status(500).json({
-            success: false,
-            error: 'Signing up failed, please try again later.'
-        })
+		return res.status(500).json({
+			success: false,
+			error: 'Signing up failed, please try again later.',
+		})
 	}
 
-    let token
+	let token
 	try {
 		token = jwt.sign(
 			{ userId: createdUser.id, email: createdUser.email },
-			'lukaku',
+			process.env.JWT_KEY,
 			{ expiresIn: '1h' }
 		)
 	} catch (err) {
-        return res.status(500).json({
-            success: false,
-            error: 'Signing up failed, please try again later.'
-        })
+		return res.status(500).json({
+			success: false,
+			error: 'Signing up failed, please try again later.',
+		})
 	}
-    res.status(201).json({
+	res.status(201).json({
 		userId: createdUser.id,
 		email: createdUser.email,
 		token: token,
@@ -65,56 +65,55 @@ exports.signup = async (req, res) => {
 }
 
 exports.signin = async (req, res) => {
-    const { email, password } = req.body
+	const { email, password } = req.body
 
 	let existingUser
 
 	try {
 		existingUser = await User.findOne({ email: email })
 	} catch (err) {
-        return res.status(500).json({
-            success: false,
-            error: 'Signing up failed, please try again later.'
-        })
+		return res.status(500).json({
+			success: false,
+			error: 'Signing up failed, please try again later.',
+		})
 	}
 
-    if (!existingUser) {
-        return res.status(403).json({
-            success: false,
-            error: 'Invalid credentials, could not log you in.'
-        })
+	if (!existingUser) {
+		return res.status(403).json({
+			success: false,
+			error: 'Invalid credentials, could not log you in.',
+		})
 	}
 
-    
 	let isValidPassword
 	try {
 		isValidPassword = await bcrypt.compare(password, existingUser.password)
 	} catch (err) {
-        return res.status(403).json({
-            success: false,
-            error: 'Invalid credentials, could not log you in.'
-        })
+		return res.status(403).json({
+			success: false,
+			error: 'Invalid credentials, could not log you in.',
+		})
 	}
 
 	if (!isValidPassword) {
-        return res.status(403).json({
-            success: false,
-            error: 'Invalid credentials, could not log you in.'
-        })
+		return res.status(403).json({
+			success: false,
+			error: 'Invalid credentials, could not log you in.',
+		})
 	}
 
-    let token
+	let token
 	try {
 		token = jwt.sign(
 			{ userId: existingUser.id, email: existingUser.email },
-			'lukaku',
+			process.env.JWT_KEY,
 			{ expiresIn: '1h' }
 		)
 	} catch (err) {
-        return res.status(500).json({
-            success: false,
-            error: 'error, could not log you in.'
-        })
+		return res.status(500).json({
+			success: false,
+			error: 'error, could not log you in.',
+		})
 	}
 
 	res.json({
@@ -123,5 +122,4 @@ exports.signin = async (req, res) => {
 		token: token,
 		name: existingUser.name,
 	})
-
 }

@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
 			throw new Error('Authentication failed')
 		}
 		if (token && isCustomAuth) {
-			decodedToken = jwt.verify(token, 'lukaku')
+			decodedToken = jwt.verify(token, process.env.JWT_KEY)
 			// add data to the request:
 			req.userData = { userId: decodedToken.userId }
 			// allow to reach to below routers
