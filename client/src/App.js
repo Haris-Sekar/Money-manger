@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {HashRouter, Route, Switch, Redirect} from 'react-router-dom'
 import Home from './pages/Home'
 import Chart from './pages/Chart'
 import Header from './header/Header'
@@ -34,9 +34,9 @@ function App() {
     )
   }
   return (
-    <BrowserRouter>
+    <HashRouter>
       {routes}
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
