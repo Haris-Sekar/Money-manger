@@ -9,6 +9,7 @@ import styled from 'styled-components'
 
 const { Text, Link, Title } = Typography
 export default function Auth() {
+	const [canGoogleLogin, setCanGoogleLogin] = useState(true)
 	const history = useHistory()
 	const {
 		signIn,
@@ -68,7 +69,8 @@ export default function Auth() {
 	}
 
 	const googleError = error => {
-		setLoginSucces(false)
+		//setLoginSucces(false)
+		setCanGoogleLogin(false)
 		console.log('error: ', error)
 	}
 
@@ -190,7 +192,7 @@ export default function Auth() {
 						render={renderProps => (
 							<Button
 								onClick={renderProps.onClick}
-								disabled={renderProps.disabled}
+								disabled={renderProps.disabled || !canGoogleLogin}
 								icon={<GoogleOutlined />}
 							>
 								Login with Google
