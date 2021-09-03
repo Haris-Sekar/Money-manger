@@ -77,11 +77,11 @@ export default function Auth() {
 	return (
 		<PageWrapper>
 			<TitleWrapper>
-				<Title level={2}>Welcome To My Money</Title>
+				<Title level={2}>Welcome To Where My Money</Title>
 				<p>
 					by
 					<a
-						style={{ color: ' #ff4500' }}
+						
 						href='https://buinam.com'
 						target='_blank'
 						rel='noreferrer'
