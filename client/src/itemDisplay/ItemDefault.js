@@ -22,7 +22,7 @@ export default function ItemDefault({item}) {
                     size="small" 
                     title={item.category} 
                     extra={<span style={{color: item.amount>0? '#3F8600': '#CF1322'}}>
-                                {item.amount}K 
+                                {item.amount} ₹
                                 <Popover 
                                     placement="topRight"
                                     content={<Edit thisItem={item} hide={hide}/>} 

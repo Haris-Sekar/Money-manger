@@ -17,7 +17,7 @@ export default function AllTransaction() {
                 value={totalIncome}
                 valueStyle={{ color: '#3f8600' }}
                 prefix={<ArrowUpOutlined />}
-                suffix="K"
+                suffix="₹"
               />
             </Card>
           </Col>
@@ -29,7 +29,7 @@ export default function AllTransaction() {
                 value={totalExpense}
                 valueStyle={{ color: '#cf1322' }}
                 prefix={<ArrowDownOutlined />}
-                suffix="K"
+                suffix="₹"
               />
             </Card>
           </Col>
